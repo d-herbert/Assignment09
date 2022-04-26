@@ -6,6 +6,7 @@ let empArray = [
     [33333333,  'Keebler Elf',  3333, 'ke@gmail.com', 'Engineering'],
     [11111111,  'Michelin Man', 1111, 'mm@gmail.com', 'Executive']
 ]
+let count = 0
 let blankArray = []
 let list 
 
@@ -53,6 +54,11 @@ form.addEventListener('submit', (e) => {
 
     // BUILD THE GRID
     console.log(empArray)
+    // CREATE THE DELETE BUTTON
+    let deleteBtn = document.createElement('button')
+    deleteBtn.className = 'btn btn-danger btn-sm float-right delete'
+    deleteBtn.appendChild(document.createTextNode('X'))
+    cell_delete.appendChild(deleteBtn)
 
     // RESET THE FORM
     document.querySelector('#id').value = ''
@@ -65,23 +71,24 @@ form.addEventListener('submit', (e) => {
     document.getElementById('id').focus();
 })
 
-// // DELETE EMPLOYEE
-// empTable.addEventListener('click', (e) => {
-//     // CONFIRM THE DELETE
-//     var i = e.target.parentNode.parentNode.rowIndex
-//     if (confirm(`are you sure you want to delete?`)) {
-//         // DELETE EMPLOYEE
-//         empTable.deleteRow(i)
-//     }
-//         // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
+// DELETE EMPLOYEE
+empTable.addEventListener('click', (e) => {
+    // CONFIRM THE DELETE
+    var i = e.target.parentNode.parentNode.rowIndex
+    if (confirm(`are you sure you want to delete?`)) {
+        // DELETE EMPLOYEE
+        empTable.deleteRow(i)
+        count-=1
+    }
+        // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
 
-//         // CALL DELETEROW() METHOD TO DELETE SPECIFIC ROW IN THE TABLE
+        // CALL DELETEROW() METHOD TO DELETE SPECIFIC ROW IN THE TABLE
 
-//         // REMOVE EMPLOYEE FROM ARRAY
+        // REMOVE EMPLOYEE FROM ARRAY
 
-//         // BUILD THE GRID
+        // BUILD THE GRID
 
-// })
+})
 
 // BUILD THE EMPLOYEES GRID
 function buildGrid() {
@@ -98,7 +105,7 @@ function buildGrid() {
     // BIND THE TBODY TO THE EMPLOYEE TABLE
 
     // UPDATE EMPLOYEE COUNT
-
+    count+= 1
     // STORE THE ARRAY IN STORAGE
 
 }
