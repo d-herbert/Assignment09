@@ -25,14 +25,13 @@ const checkStorage = () => {
         $('tbody').value = list
     }
 }
-checkStorage()
 
 // GET DOM ELEMENTS
 let form = $('addForm')
 let table = $('employees')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-let empTable =$('tbody')
+let empTable = document.getElementsByTagName('tbody')[0]
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -64,7 +63,7 @@ form.addEventListener('submit', (e) => {
 
     // SET FOCUS BACK TO THE ID TEXT BOX
     document.getElementById('id').focus();
-});
+})
 
 // // DELETE EMPLOYEE
 // empTable.addEventListener('click', (e) => {
@@ -82,14 +81,14 @@ form.addEventListener('submit', (e) => {
 
 //         // BUILD THE GRID
 
-// });
+// })
 
 // BUILD THE EMPLOYEES GRID
 function buildGrid() {
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
     empTable.innerHTML = ""
     // REBUILD THE TBODY FROM SCRATCH
-
+    empTable.innerHTML = empArray[0][0] + '<br>' + empArray[0][1]
 
 
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
@@ -102,4 +101,8 @@ function buildGrid() {
 
     // STORE THE ARRAY IN STORAGE
 
-};
+}
+
+checkStorage()
+console.log(empTable)
+buildGrid()
