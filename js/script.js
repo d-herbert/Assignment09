@@ -7,10 +7,6 @@ let empArray = [
     [11111111,  'Michelin Man', 1111, 'mm@gmail.com', 'Executive']
 ]
 let count = 0
-let blankArray = []
-let list 
-const columns = 5;
-const rows = 6;
 
 
 const $ = (id) => {
@@ -19,15 +15,8 @@ const $ = (id) => {
 
 // CHECK TO SEE IF STORAGE OBJECT EXISTS WHEN THE PAGE LOADS
 // IF DOES, RETURN STORAGE OBJECT INTO ARRAY INSTEAD OF POPULATED ARRAY
-const checkStorage = () => {
-    // check 
-    sessionStorage.setItem('empArray', JSON.stringify(empArray))
-    console.log(JSON.parse(sessionStorage.getItem('empArray')))
 
-    if (empArray.lenth > 0) {
-        list = empArray.join('\n')
-        $('tbody').value = list
-    }
+const checkStorage = () => {
 }
 
 // GET DOM ELEMENTS
@@ -52,20 +41,32 @@ form.addEventListener('submit', (e) => {
     let department = document.querySelector('#department').value
     
     // ADD THE NEW EMPLOYEE TO A NEW ARRAY OBJECT
-    empArray.push([id, name, extension, email, department])
-
+    newRow = [id, name, extension, email, department]
+    
     // PUSH THE NEW ARRAY TO THE *EXISTING* EMPLOYEES ARRAY
-    localStorage.setItem('emp', empArray.join(','))
+    empArray.push(newRow)
+    localStorage.setItem('emp', JSON.stringify(empArray))
+    emp = JSON.parse(localStorage.getItem('emp'))
+    var html = ''
 
     // BUILD THE GRID
-
-
-
+    for (let r of emp) {
+        console.log(r)
+        html += `
+        <tr>
+            <td> ${r[0]} </td>
+            <td> ${r[1]} </td>
+            <td> ${r[2]} </td>
+            <td> ${r[3]} </td>
+            <td> ${r[4]} </td>
+        </tr>
+        `
+    }
     // CREATE THE DELETE BUTTON
     let deleteBtn = document.createElement('button')
     deleteBtn.className = 'btn btn-danger btn-sm float-right delete'
     deleteBtn.appendChild(document.createTextNode('X'))
-    cell_delete.appendChild(deleteBtn)
+    // cell_delete.appendChild(deleteBtn)
 
     // RESET THE FORM
     document.querySelector('#id').value = ''
@@ -100,16 +101,14 @@ empTable.addEventListener('click', (e) => {
 // BUILD THE EMPLOYEES GRID
 function buildGrid() {
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
-    empTable.innerHTML = ""
     // REBUILD THE TBODY FROM SCRATCH
-    // cellID1.innerHTML = empArray[0][0]
-    // empTable.innerHTML = empArray[0][0] + '<br>' + empArray[0][1]
-
-
-    // LOOP THROUGH THE ARRAY OF EMPLOYEES
-    // REBUILDING THE ROW STRUCTURE
     var html = ''
-    for (let r of empArray) {
+    // LOOP THROUGH THE ARRAY OF EMPLOYEES
+    emp = JSON.parse(localStorage.getItem('emp'))
+
+    // REBUILDING THE ROW STRUCTURE
+    for (let r of emp) {
+        console.log(r)
         html += `
         <tr>
             <td> ${r[0]} </td>
@@ -120,19 +119,17 @@ function buildGrid() {
         </tr>
         `
     }
-    empTable.innerHTML = html
-
-
 
     // BIND THE TBODY TO THE EMPLOYEE TABLE
+    empTable.innerHTML = html
 
     // UPDATE EMPLOYEE COUNT
     count+= 1
     // STORE THE ARRAY IN STORAGE
-
 }
 
 checkStorage()
-// console.log(empTable)
-// console.log(empTable.length)
+// var emp = JSON.parse(localStorage.getItem('emp'))
 buildGrid()
+
+
