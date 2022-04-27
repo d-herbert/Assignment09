@@ -9,6 +9,9 @@ let empArray = [
 let count = 0
 let blankArray = []
 let list 
+const columns = 5;
+const rows = 6;
+
 
 const $ = (id) => {
     return document.getElementById(id);
@@ -32,7 +35,9 @@ let form = $('addForm')
 let table = $('employees')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
+// let empTable = document.getElementsByTagName('tbody')[0]
 let empTable = document.getElementsByTagName('tbody')[0]
+
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -53,7 +58,9 @@ form.addEventListener('submit', (e) => {
     localStorage.setItem('emp', empArray.join(','))
 
     // BUILD THE GRID
-    console.log(empArray)
+
+
+
     // CREATE THE DELETE BUTTON
     let deleteBtn = document.createElement('button')
     deleteBtn.className = 'btn btn-danger btn-sm float-right delete'
@@ -95,11 +102,26 @@ function buildGrid() {
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
     empTable.innerHTML = ""
     // REBUILD THE TBODY FROM SCRATCH
-    empTable.innerHTML = empArray[0][0] + '<br>' + empArray[0][1]
+    // cellID1.innerHTML = empArray[0][0]
+    // empTable.innerHTML = empArray[0][0] + '<br>' + empArray[0][1]
 
 
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
     // REBUILDING THE ROW STRUCTURE
+    var html = ''
+    for (let r of empArray) {
+        html += `
+        <tr>
+            <td> ${r[0]} </td>
+            <td> ${r[1]} </td>
+            <td> ${r[2]} </td>
+            <td> ${r[3]} </td>
+            <td> ${r[4]} </td>
+        </tr>
+        `
+    }
+    empTable.innerHTML = html
+
 
 
     // BIND THE TBODY TO THE EMPLOYEE TABLE
@@ -111,5 +133,6 @@ function buildGrid() {
 }
 
 checkStorage()
-console.log(empTable)
+// console.log(empTable)
+// console.log(empTable.length)
 buildGrid()
