@@ -6,17 +6,19 @@ let empArray = [
     [33333333,  'Keebler Elf',  3333, 'ke@gmail.com', 'Engineering'],
     [11111111,  'Michelin Man', 1111, 'mm@gmail.com', 'Executive']
 ]
-let count = 0
+let count = 5
 
 
 const $ = (id) => {
-    return document.getElementById(id);
+    return document.getElementById(id)
 }
 
 // CHECK TO SEE IF STORAGE OBJECT EXISTS WHEN THE PAGE LOADS
 // IF DOES, RETURN STORAGE OBJECT INTO ARRAY INSTEAD OF POPULATED ARRAY
-
 const checkStorage = () => {
+    emp = JSON.parse(localStorage.getItem('emp'))
+    let parentOutput = document.getElementById('empCount')
+    parentOutput.innerHTML = `(${count})`
 }
 
 // GET DOM ELEMENTS
@@ -24,9 +26,9 @@ let form = $('addForm')
 let table = $('employees')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-// let empTable = document.getElementsByTagName('tbody')[0]
 let empTable = document.getElementsByTagName('tbody')[0]
-
+checkStorage()
+buildGrid()
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -49,6 +51,9 @@ form.addEventListener('submit', (e) => {
     emp = JSON.parse(localStorage.getItem('emp'))
     var html = ''
 
+    // CREATE THE DELETE BUTTON
+    deleteBtn = "<button class='btn btn-danger btn-sm float-right delete'>x</button>"
+
     // BUILD THE GRID
     for (let r of emp) {
         console.log(r)
@@ -59,14 +64,10 @@ form.addEventListener('submit', (e) => {
             <td> ${r[2]} </td>
             <td> ${r[3]} </td>
             <td> ${r[4]} </td>
+            <td> ${deleteBtn} </td>
         </tr>
         `
     }
-    // CREATE THE DELETE BUTTON
-    let deleteBtn = document.createElement('button')
-    deleteBtn.className = 'btn btn-danger btn-sm float-right delete'
-    deleteBtn.appendChild(document.createTextNode('X'))
-    // cell_delete.appendChild(deleteBtn)
 
     // RESET THE FORM
     document.querySelector('#id').value = ''
@@ -76,24 +77,23 @@ form.addEventListener('submit', (e) => {
     document.querySelector('#department').value = ''
 
     // SET FOCUS BACK TO THE ID TEXT BOX
-    document.getElementById('id').focus();
+    document.getElementById('id').focus()
 })
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
-    // CONFIRM THE DELETE
+    // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
     var i = e.target.parentNode.parentNode.rowIndex
+    // CONFIRM THE DELETE
     if (confirm(`are you sure you want to delete?`)) {
         // DELETE EMPLOYEE
+        // CALL DELETEROW() METHOD TO DELETE SPECIFIC ROW IN THE TABLE
         empTable.deleteRow(i)
         count-=1
     }
-        // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
-
-        // CALL DELETEROW() METHOD TO DELETE SPECIFIC ROW IN THE TABLE
-
         // REMOVE EMPLOYEE FROM ARRAY
-
+        parentOutput = document.getElementById('empCount')
+        parentOutput.innerHTML = `(${count})`
         // BUILD THE GRID
 
 })
@@ -106,6 +106,8 @@ function buildGrid() {
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
     emp = JSON.parse(localStorage.getItem('emp'))
 
+    const deleteBtn = "<button class='btn btn-danger btn-sm float-right delete'>x</button>"
+
     // REBUILDING THE ROW STRUCTURE
     for (let r of emp) {
         console.log(r)
@@ -116,6 +118,8 @@ function buildGrid() {
             <td> ${r[2]} </td>
             <td> ${r[3]} </td>
             <td> ${r[4]} </td>
+            <td> ${deleteBtn} </td>
+
         </tr>
         `
     }
@@ -126,10 +130,8 @@ function buildGrid() {
     // UPDATE EMPLOYEE COUNT
     count+= 1
     // STORE THE ARRAY IN STORAGE
-}
+    localStorage.setItem('emp', JSON.stringify(empArray))
 
-checkStorage()
-// var emp = JSON.parse(localStorage.getItem('emp'))
-buildGrid()
+}
 
 
