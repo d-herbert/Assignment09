@@ -27,8 +27,6 @@ let table = $('employees')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
 let empTable = document.getElementsByTagName('tbody')[0]
-checkStorage()
-buildGrid()
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -126,12 +124,18 @@ function buildGrid() {
 
     // BIND THE TBODY TO THE EMPLOYEE TABLE
     empTable.innerHTML = html
-
     // UPDATE EMPLOYEE COUNT
     count+= 1
     // STORE THE ARRAY IN STORAGE
     localStorage.setItem('emp', JSON.stringify(empArray))
 
 }
+
+function main() {
+    checkStorage()
+    buildGrid()
+}
+
+main()
 
 
